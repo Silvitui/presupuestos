@@ -1,1 +1,89 @@
-<p>panel works!</p>
+<form class="form-group">
+  <div class="row ms-auto">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="mx-2">
+          <i (click)="textPopUp('Número de páginas:','Añade las páginas que tendrá tu proyecto, cada página son 30 €')"
+          class="fas fa-info-circle"
+          data-bs-toggle="modal"
+          data-bs-target="#modal"
+          style="cursor: pointer; color: black"
+        >
+          </i>
+        </div>
+        <div>
+          <span class="me-2">Número de páginas</span>
+        </div>
+        <div>
+          <button
+            class="btn btn-outline-secondary btn-small"
+            type="button"
+            (click)="rest(pagesIdentifier)"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <input
+            class="input form-control d-inline-block text-center mx-1"
+            type="number"
+            [formControl]="validPages"
+            readonly
+          />
+          <button
+            class="btn btn-outline-secondary btn-small"
+            type="button"
+            (click)="add(pagesIdentifier)"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-auto">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="mx-2">
+          <i
+            (click)="
+              textPopUp('Número de idiomas','Añade los idiomas que tendrá tu proyecto. El coste de cada idioma es de 30 €'
+              )
+            "
+            class="fas fa-info-circle"
+            data-bs-toggle="modal"
+            data-bs-target="#modal"
+            style="color: black; cursor: pointer"
+          >
+          </i>
+        </div>
+        <div>
+          <span>Número de idiomas</span>
+        </div>
+        <div>
+          <button
+            class="btn btn-outline-secondary btn-small"
+            type="button"
+            (click)="rest(languageIdentifier)"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <input
+            class="input form-control d-inline-block text-center mx-1"
+            type="number"
+            [formControl]="validLanguage"
+            readonly
+          />
+          <button
+            class="btn btn-outline-secondary btn-small"
+            type="button"
+            (click)="add(languageIdentifier)"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-modal [title]="title" [text]="text"></app-modal>

@@ -1,1 +1,23 @@
-<p>modal works!</p>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header bg-black text-white">
+        <h1 class="modal-title fs-4" id="modalLabel">
+          <i class="fas fa-info-circle me-2"></i> {{ title }}
+        </h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="fs-5 text-muted">{{ text }}</p>
+      </div>
+
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-1"></i> Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,7 +12,7 @@
         <div class="col mx-auto">
           <div
             [ngClass]="{'border border-success': form.value.seobox === true}"
-            class="d-flex justify-content-between align-items-center rounded p-4 shadow"
+            class="d-flex justify-content-between align-items-center rounded p-5 shadow"
           >  <div>
               <h3>Seo</h3>
               <p>Programación de una web responsive completa</p>
@@ -37,7 +37,7 @@
         <div class="col mx-auto">
           <div
             [ngClass]="{'border border-success': form.value.adsbox === true}"
-            class="d-flex justify-content-between align-items-center rounded p-4 shadow"
+            class="d-flex justify-content-between align-items-center rounded p-5 shadow"
           >
             <div>
               <h3>Ads</h3>
@@ -63,7 +63,7 @@
         <div class="col mx-auto">
           <div
             [ngClass]="{'border border-success': form.value.webbox === true}"
-            class="d-flex justify-content-between align-items-center rounded p-4 shadow"
+            class="d-flex justify-content-between align-items-center rounded p-5 shadow"
           >
             <div>
               <h3>Web</h3>
@@ -80,9 +80,10 @@
                   name="webbox"
                   formControlName="webbox"
                 />
-                <label class="form-check-label">Añadir</label>
+                <label class="form-check-label"> Añadir</label>
               </div>
               <div *ngIf="form.value.webbox === true">
+                <app-panel></app-panel>
                 
               </div>
             </div>
@@ -99,4 +100,73 @@
     </form>
   
     <!-- Formulario de datos de usuario, solo si hay un total > 0 -->
-   
+    <div *ngIf="BudgetService.total > 0" class="my-5">
+      <form
+        class="form-group form-inline border rounded p-4 shadow needs-validation"
+        (submit)="addUser()"
+        [formGroup]="formularioUser"
+      >
+        <div class="row">
+          <div class="mb-4">
+            <h3>Solicitar presupuesto</h3>
+          </div>
+  
+          <!-- Campo nombre -->
+          <div class="col">
+            <input
+              type="text"
+              class="form-control mr-2"
+              placeholder="Nombre"
+              formControlName="nombre"
+            />
+            <!-- Un solo *ngIf, que muestra el mensaje si getErrorMessage('nombre') es distinto de null -->
+            <div class="text-danger" *ngIf="getErrorMessage('nombre') as msg">
+              {{ msg }}
+            </div>
+          </div>
+  
+          <!-- Campo teléfono -->
+          <div class="col">
+            <input
+              type="number"
+              min="0"
+              class="form-control mr-2"
+              placeholder="Teléfono"
+              formControlName="telefono"
+            />
+            <div class="text-danger" *ngIf="getErrorMessage('telefono') as msg">
+              {{ msg }}
+            </div>
+          </div>
+  
+          <!-- Campo email -->
+          <div class="col">
+            <input
+              type="email"
+              class="form-control mr-2"
+              placeholder="Email"
+              formControlName="email"
+            />
+            <div class="text-danger" *ngIf="getErrorMessage('email') as msg">
+              {{ msg }}
+            </div>
+          </div>
+  
+          <!-- Botón submit -->
+          <div class="col">
+            <button type="submit" class="btn btn-success">
+              Solicitar presupuesto
+            </button>
+          </div>
+  
+        </div>
+      </form>
+    </div>
+  
+    <!-- Lista de presupuestos si existen -->
+    <div *ngIf="BudgetService.getEstimates.length > 0" class="my-5">
+      <app-budgets-list></app-budgets-list>
+    </div>
+  
+  </div>
+  

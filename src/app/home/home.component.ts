@@ -1,3 +1,4 @@
+
 import { BudgetService } from './../services/budget.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,7 +17,8 @@ import { UserBudget } from '../models/budgets';
 })
 export class HomeComponent {
 
-  user: UserBudget = {
+   UserBudget:
+    UserBudget = {
     correo: '',
     date: 0,
     name: '',
@@ -28,6 +30,9 @@ export class HomeComponent {
       web: false
     },
   };
+
+
+
   constructor(public BudgetService: BudgetService, private router: Router) {}
 
   ngOnInit(): void {
@@ -39,13 +44,13 @@ export class HomeComponent {
     });
   }
 
-    public form : FormGroup = new FormGroup({
+    form : FormGroup = new FormGroup({
       seobox : new FormControl(false),
       adsbox : new FormControl(false),
       webbox : new FormControl(false)
     })
 
-    public formularioUser : FormGroup = new FormGroup({
+    formularioUser : FormGroup = new FormGroup({
       name : new FormControl("",[Validators.required,Validators.minLength(3)]),
       email : new FormControl("",[Validators.required,Validators.email]),
       telephone : new FormControl("",[Validators.required,Validators.minLength(9),Validators.maxLength(9)]),
@@ -54,10 +59,10 @@ export class HomeComponent {
     getErrorMessage(controlName: string): string | null {
       const control = this.formularioUser.get(controlName);
       if (!control) return null;
-      if (control.hasError('required') && (control.touched || control.dirty)) {
+      if (control.hasError("required") && (control.touched || control.dirty)) {
         return 'Este campo es obligatorio';
       }
-      if (control.hasError('minlength') && control.dirty) {
+      if (control.hasError("minLength") && control.dirty) {
         return 'No cumple con la longitud mínima';
       }
       return null;
@@ -65,15 +70,15 @@ export class HomeComponent {
 
     addUser() {
       if(this.formularioUser.valid) {
-        this.user.name = this.formularioUser.value.name;
-        this.user.telephone = this.formularioUser.value.telephone;
-        this.user.correo = this.formularioUser.value.email;
-        this.BudgetService.addUser(this.user);
+        this.UserBudget.name = this.formularioUser.value.name;
+        this.UserBudget.telephone = this.formularioUser.value.telephone;
+        this.UserBudget.correo = this.formularioUser.value.email;
+        this.BudgetService.addUser(this.UserBudget);
   
         this.form.reset()
         this.formularioUser.reset()
       } else {
-        throw new Error('validation fail')
+        throw new Error("validation failed")
       }
     }
 

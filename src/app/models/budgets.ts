@@ -1,8 +1,9 @@
 export interface UserBudget {
     correo: string; 
+    telephone: number; 
     date: number; 
     name: string; 
-    pageOption?: { 
+    webOption?: { 
       pages: number; 
       language: number; 
     };
@@ -11,7 +12,7 @@ export interface UserBudget {
       ads: boolean;
       web: boolean;
     };
-    telephone: number; 
     total: number; 
+   
   }
   

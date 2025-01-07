@@ -5,11 +5,7 @@ import { UserBudget } from '../models/budgets';
   providedIn: 'root'
 })
 export class BudgetService {
-
-
   private estimates: UserBudget[] = [];
-
- 
  total: number = 0;        
  totalBudget: number = 0;   
  service: any = {
@@ -17,8 +13,7 @@ export class BudgetService {
     ads: false,
     web: false
   };
-
-  webOptions: any = {
+  webOptions: any = { 
     pages: 1,
     language: 1
   };
@@ -74,5 +69,9 @@ export class BudgetService {
   
    
   }
+  resetOptions() {
+    throw new Error('Method not implemented.');
+  }
+
   
 }

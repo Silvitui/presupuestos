@@ -17,6 +17,7 @@ import { UserBudget } from "../models/budgets";
 export class HomeComponent {
   formularioUser: FormGroup;
   form: FormGroup;
+ 
 
   constructor(public BudgetService: BudgetService, private router: Router) {
     this.form = new FormGroup({
@@ -72,10 +73,11 @@ export class HomeComponent {
         webOption: { ...this.BudgetService.webOptions },
       };
 
-      this.BudgetService.addUser(userBudget);
+      this.BudgetService.addUser(userBudget)
 
       this.formularioUser.reset();
       this.form.reset();
+ 
     } else {
       console.error('Formulario inválido');
     }

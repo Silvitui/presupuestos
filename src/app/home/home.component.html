@@ -2,7 +2,7 @@
     <div class="row mt-5">
       <div class="col text-center">
         <header class="header">
-          <h1 class="fw-bold">Get the best quality</h1>
+             <h1 class="fw-bold text-center align-items-center">Get the best quality</h1>
         </header>
       </div>
     </div>
@@ -80,7 +80,7 @@
                   name="webbox"
                   formControlName="webbox"
                 />
-                <label class="form-check-label">Añadir</label>
+                <label class="form-check-label mb-2"></label>
               </div>
               <div *ngIf="form.value.webbox === true">
                 <app-panel></app-panel>
@@ -102,7 +102,7 @@
    
     <div *ngIf="BudgetService.total > 0" class="my-5">
       <form
-        class="border rounded p-3 shadow m-5"
+        class="border rounded p-3 shadow"
         (ngSubmit)="addUser()"
         [formGroup]="formularioUser"
       >
@@ -110,8 +110,6 @@
           <div class="mb-2 mt-2">
             <h3 class="fw-bold">Solicitar presupuesto</h3>
           </div>
-    
-          <!-- Nombre -->
           <div class="col">
             <input
               type="text"
@@ -123,8 +121,6 @@
               {{ msg }}
             </div>
           </div>
-    
-          <!-- Teléfono -->
           <div class="col">
             <input
               type="number"
@@ -138,7 +134,6 @@
             </div>
           </div>
     
-          <!-- Email -->
           <div class="col">
             <input
               type="email"
@@ -151,17 +146,13 @@
             </div>
           </div>
     
-          <!-- Botón de envío -->
+         
           <div class="col">
             <button type="submit" class="btn btn-success" [disabled]="formularioUser.invalid">
               Solicitar presupuesto
             </button>
           </div>
         </div>
-    
-        <!-- Listado de presupuestos -->
-        
-       
       </form>
     
     </div>

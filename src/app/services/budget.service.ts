@@ -61,6 +61,7 @@ export class BudgetService {
     if (this.service.ads) {
       this.total += 400; 
     }
+    
   }
   addWebOptions(pages: number, language: number): void {
     this.webOptions.pages = pages;
@@ -70,8 +71,10 @@ export class BudgetService {
    
   }
   resetOptions() {
-    throw new Error('Method not implemented.');
+    this.webOptions = {};
+
   }
+  
 
   
 }

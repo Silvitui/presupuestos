@@ -1,12 +1,5 @@
 <div class="container">
-    <div class="row mt-5">
-      <div class="col text-center">
-        <header class="header">
-             <h1 class="fw-bold text-center align-items-center">Get the best quality</h1>
-        </header>
-      </div>
-    </div>
-  
+  <app-welcome></app-welcome>
     <form class="form-group "  [formGroup]="form">
       <div class="row my-5">
         <div class="col mx-auto">
@@ -25,8 +18,8 @@
                 class="form-check-input"
                 type="checkbox"
                 name="seobox"
-                formControlName="seobox"
-              />
+                formControlName="seobox" (change)="changeStatus(); updateURL()">
+              
               <label class="form-check-label">Añadir</label>
             </div>
           </div>
@@ -51,8 +44,8 @@
                 class="form-check-input"
                 type="checkbox"
                 name="adsbox"
-                formControlName="adsbox"
-              />
+                formControlName="adsbox" (change)="changeStatus(); updateURL()">
+              
               <label class="form-check-label">Añadir</label>
             </div>
           </div>
@@ -78,8 +71,8 @@
                   class="form-check-input"
                   type="checkbox"
                   name="webbox"
-                  formControlName="webbox"
-                />
+                  formControlName="webbox" (change)="changeStatus(); updateURL()">
+               
                 <label class="form-check-label mb-2">Añadir</label>
               </div>
               <div *ngIf="form.value.webbox === true">

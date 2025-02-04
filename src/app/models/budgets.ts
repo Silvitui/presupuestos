@@ -1,18 +1,21 @@
+export interface WebOptions {
+  pages: number;
+  languages: number;
+}
+
+export interface ServiceSelection {
+  seo: boolean;
+  ads: boolean;
+  web: boolean;
+}
+
 export interface UserBudget {
-    correo: string; 
-    telephone: number; 
-    date: number; 
-    name: string; 
-    webOption?: { 
-      pages: number; 
-      language: number; 
-    };
-    service: { 
-      seo: boolean;
-      ads: boolean;
-      web: boolean;
-    };
-    total: number; 
-   
-  }
   
+  name: string; 
+  email: string; 
+  phone: string; 
+  date: Date; 
+  services: ServiceSelection; 
+  webOptions?: WebOptions; 
+  total: number; 
+}

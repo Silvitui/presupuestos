@@ -1,46 +1,56 @@
-<div class="row">
+<div class="container mt-5">
+  <div class="row">
     <div class="col">
       <h3>Presupuestos en curso:</h3>
     </div>
     <div class="col">
-      <div>
-        <form class="d-flex" role="search">
-          <div class="input-group">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="name" [(ngModel)]="name">
-            <button class="btn btn-outline-secondary" type="button" (click)="filtersBudgetsByName(name)">
-                <i class="fa fa-search"></i>
-            </button>
+      <form class="d-flex" role="search" (submit)="preventDefault($event)">
+        <div class="input-group">
+          <input class="form-control" type="search" placeholder="Buscar por nombre" [(ngModel)]="name">
+          <button class="btn btn-outline-secondary" type="button" (click)="filtersBudgetsByName()">
+            <i class="fa fa-search"></i>
+          </button>
         </div>
-          <button class="btn btn-light" type="submit" (click)="filteredByDate()">Fecha</button>
-          <button class="btn btn-light" type="submit" (click)="orderTotal()">Importe</button>
-          <button class="btn btn-light" type="submit" (click)="orderName()">Nombre</button>
-        </form>
+        <button class="btn btn-light" type="button" (click)="sortByDate()">Fecha</button>
+        <button class="btn btn-light" type="button" (click)="sortByTotal()">Importe</button>
+        <button class="btn btn-light" type="button" (click)="sortByName()">Nombre</button>
+      </form>
+    </div>
+  </div>
+
+  @if (presupuestos().length > 0) {
+    @for (budget of presupuestos(); track budget.email) {
+      <div class="row my-3 border d-flex justify-content-between rounded p-4 shadow">
+        <div class="col d-flex flex-column text-center">
+          <h2 class="fw-bold">{{ budget.name }}</h2>
+          <p>{{ budget.phone }}</p>
+          <p>{{ budget.email }}</p>
+        </div>
+
+        <div class="col d-flex flex-column text-center">
+          <h4>Servicios contratados:</h4>
+          <ul class="list-group list-group-flush">
+            @for (service of getServicesList(budget); track service) {
+              <li class="list-group-item">
+                {{ service }}
+                @if (service.includes('Web')) {
+                  <span> - ({{ budget.webOptions?.pages }} páginas, {{ budget.webOptions?.languages }} idiomas)</span>
+                }
+              </li>
+            }
+          </ul>
+        </div>
+
+    
+        <div class="col d-flex flex-column text-center">
+          <h3>Total:</h3>
+          <h2 class="fw-bold text-success">{{ budget.total }} €</h2>
+        </div>
       </div>
+    }
+  } @else {
+    <div class="text-center mt-5">
+      <h3 class="fw-bold">No existen presupuestos disponibles.</h3>
     </div>
-  </div>
-  <div *ngFor="let item of presupuestos">
-  <div class="row my-3 border d-flex justify-content-between rounded  p-4 shadow">
-    <div class="col d-flex flex-column text-center">
-      <div><h2 class="fw-bold">{{item.name}}</h2></div>
-      <div><p>{{item.telephone}}</p></div>
-      <div><p>{{item.correo}}</p></div>
-    </div>
-    <div class="col d-flex flex-column text-center">
-      <div><h4>Servicios contratados:</h4></div>
-      <div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let service of filterServices(item.service)" class="list-group-item">
-              {{service.key}}
-              <span *ngIf="service.key === 'web' "> - ({{item.webOption?.pages}} páginas, {{item.webOption?.language}} idiomas)</span>
-  
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col d-flex flex-column text-center">
-      <div><h3>Total:</h3></div>
-      <div class="fw-bold"><h2 class="fw-bold">{{item.total}}  €</h2></div>
-    </div>
-  </div>
-  </div>
-  
+  }
+</div>

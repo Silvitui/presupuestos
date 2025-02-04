@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone:true,
   selector: 'app-modal',
   imports: [],
   templateUrl: './modal.component.html',

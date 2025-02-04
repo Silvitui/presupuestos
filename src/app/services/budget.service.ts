@@ -1,80 +1,72 @@
-import { Injectable } from '@angular/core';
-import { UserBudget } from '../models/budgets';
+import { Injectable, signal } from '@angular/core';
+import { UserBudget, ServiceSelection, WebOptions } from '../models/budgets';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private estimates: UserBudget[] = [];
- total: number = 0;        
- totalBudget: number = 0;   
- service: any = {
+  budgetsList = signal<UserBudget[]>([]);
+  total = signal<number>(0); 
+
+  services = signal<ServiceSelection>({
     seo: false,
     ads: false,
     web: false
-  };
-  webOptions: any = { 
+  });
+
+  webOptions = signal<WebOptions>({
     pages: 1,
-    language: 1
-  };
+    languages: 1
+  });
 
-   pageCost: number = 0;
-  languageCost: number = 0;
-
-  constructor() {}
-
-
-   getEstimates(): UserBudget[] {
-    return this.estimates;
+  get budgets() {
+    return this.budgetsList; 
   }
 
-
-   addUser(user: UserBudget): void {
-    user.date = new Date().getTime();     
-    user.total = this.total;             
-    user.service = { ...this.service };  
-    user.webOption = { ...this.webOptions };
-
-    this.estimates.push(user);
+  addUser(user: UserBudget): void {
+    const totalBudget = this.total(); 
+  
+    const newBudget: UserBudget = {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      date: new Date(),
+      total: totalBudget, 
+      services: { ...this.services() },
+      webOptions: this.services().web ? { ...this.webOptions() } : undefined
+    };
+  
+    this.budgetsList.set([...this.budgetsList(), newBudget]); 
   }
-
-
-   calculateBudget(): void {
-
-    this.total = this.totalBudget;
-
-    if (this.service.web) {
-      this.total += 500;
-      if (this.webOptions.pages > 1 || this.webOptions.language >1) {
-        this.pageCost = this.webOptions.pages * 30;
-        this.languageCost = this.webOptions.language * 30;
-        this.total += this.pageCost + this.languageCost;
-      }
+  calculateBudget(): void {
+    let total = 0;
+    if (this.services().web) {
+      total += 500;
+      total += this.webOptions().pages * 30;
+      total += this.webOptions().languages * 30;
     }
 
+    if (this.services().seo) total += 300;
+    if (this.services().ads) total += 400;
 
-    if (this.service.seo) {
-      this.total += 300; 
-    }
-
-  
-    if (this.service.ads) {
-      this.total += 400; 
-    }
-    
+    this.total.set(total); 
   }
-  addWebOptions(pages: number, language: number): void {
-    this.webOptions.pages = pages;
-    this.webOptions.language = language;
-    this.calculateBudget()
-  
-   
-  }
-  resetOptions() {
-    this.webOptions = {};
 
+  updateService(service: keyof ServiceSelection, value: boolean): void {
+    this.services.update(services => ({ ...services, [service]: value }));
+    this.calculateBudget();
   }
-  
 
-  
+  addWebOptions(pages: number, languages: number): void {
+    this.webOptions.set({ pages, languages });
+    this.calculateBudget();
+  }
+
+  resetOptions(): void {
+    this.webOptions.set({ pages: 1, languages: 1 });
+  }
+
+  updateBudgets(updatedBudgets: UserBudget[]): void {
+    this.budgetsList.set(updatedBudgets); 
+  }
 }

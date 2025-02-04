@@ -1,67 +1,61 @@
-import { CommonModule} from '@angular/common';
-import { Component,  Input,  } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { UserBudget } from '../models/budgets';
+import { Component, inject, computed, Signal } from '@angular/core';
 import { BudgetService } from '../services/budget.service';
-import { Router } from '@angular/router';
-import { HomeComponent } from '../home/home.component';
+import { UserBudget } from '../models/budgets';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-budgets-list',
-  standalone:true,
-  imports: [CommonModule, FormsModule,HomeComponent],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './budgets-list.component.html',
-  styleUrl: './budgets-list.component.scss'
+  styleUrls: ['./budgets-list.component.scss']
 })
-export class BudgetsListComponent  {
-  @Input() presupuestos: UserBudget[] = []; 
+export class BudgetsListComponent {
+ budgetService = inject(BudgetService);
   name: string = "";
-  isAscending: boolean = true;
+
+  presupuestos: Signal<UserBudget[]> = computed(() => {
+    return [...this.budgetService.budgets()]
+      .filter(budget => budget.name.toLowerCase().includes(this.name.toLowerCase()));
+  });
+
 
   
-
-  ngOnInit() : void {
-    this.presupuestos = this.BudgetService.getEstimates();
-  }
-  constructor(public BudgetService: BudgetService, private router: Router) {}
-  
-
-
-  filtersBudgetsByName(name:string) : void {
-    this.presupuestos = this.BudgetService.getEstimates().filter(presupuesto => presupuesto.name.toLowerCase().includes(this.name.toLowerCase()))
+  filtersBudgetsByName(): void {
+    this.presupuestos = computed(() => {
+      return [...this.budgetService.budgets()]
+        .filter(budget => budget.name.toLowerCase().includes(this.name.toLowerCase()));
+    });
   }
 
-  filteredByDate() {
-    this.isAscending= !this.isAscending
-    if(this.isAscending) {
-      this.presupuestos.sort((a,b) => a.date - b.date)
-    } else {
-      this.presupuestos.sort((a,b) => b.date - a.date)
-    }
-
-  }
-  filterServices(services: any): any[] {
-    return Object.keys(services)
-      .filter(key => services[key] === true)
-      .map(key => ({ key, value: services[key] }));
-  }
-  orderName() {
-    this.isAscending = !this.isAscending;
-    this.presupuestos.sort((a, b) =>
-      this.isAscending
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
-    );
-  }
-  orderTotal() {
-    this.isAscending= !this.isAscending
-    if(this.isAscending) {
-      this.presupuestos.sort((a,b) => a.total - b.total)
-    } else {
-      this.presupuestos.sort((a,b) => b.total - a.total)
-    }
+  sortByDate(): void {
+    const sortedBudgets = [...this.budgetService.budgets()]
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.budgetService.updateBudgets(sortedBudgets);
   }
 
-  
+  sortByTotal(): void {
+    const sortedBudgets = [...this.budgetService.budgets()]
+      .sort((a, b) => b.total - a.total);
+    this.budgetService.updateBudgets(sortedBudgets);
+  }
 
+  sortByName(): void {
+    const sortedBudgets = [...this.budgetService.budgets()]
+      .sort((a, b) => a.name.localeCompare(b.name));
+    this.budgetService.updateBudgets(sortedBudgets);
+  }
+  getServicesList(budget: UserBudget): string[] {
+    return [
+      budget.services.seo ? "SEO" : null,
+      budget.services.ads ? "Ads" : null,
+      budget.services.web && budget.webOptions
+        ? `Web (${budget.webOptions.pages} páginas, ${budget.webOptions.languages} idiomas)`
+        : null
+    ].filter(Boolean) as string[];
+  }
+  preventDefault(event: Event): void {
+    event.preventDefault();
+  }
 }

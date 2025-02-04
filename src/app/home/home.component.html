@@ -1,153 +1,130 @@
 <div class="container">
   <app-welcome></app-welcome>
-    <form class="form-group "  [formGroup]="form">
-      <div class="row my-5">
-        <div class="col mx-auto">
-          <div
-            [ngClass]="{'border border-success border-thick ': form.value.seobox === true}"
-            class="d-flex justify-content-between align-items-center rounded p-5 shadow"
-          >  <div>
-              <h3 class="fw-bold" >Seo</h3>
-              <p>Programación de una web responsive completa</p>
-            </div>
-            <div>
-              <h2 class="fw-bold">300 €</h2>
-            </div>
-            <div class="form-group form-check">
+  <form class="form-group" [formGroup]="budgetForm">
+    <div class="row my-5">
+      <div class="col mx-auto">
+        <div
+          [ngClass]="{'border border-success border-thick': budgetService.services().seo}"
+          class="d-flex justify-content-between align-items-center rounded p-5 shadow"
+        >
+          <div>
+            <h3 class="fw-bold">SEO</h3>
+            <p>Programación de una web responsive completa</p>
+          </div>
+          <div>
+            <h2 class="fw-bold">300 €</h2>
+          </div>
+          <div class="form-group form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="seo"
+              (change)="changeStatus()"
+            />
+            <label class="form-check-label">Añadir</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-5">
+      <div class="col mx-auto">
+        <div
+          [ngClass]="{'border border-success': budgetService.services().ads}"
+          class="d-flex justify-content-between align-items-center rounded p-5 shadow"
+        >
+          <div>
+            <h3 class="fw-bold">Ads</h3>
+            <p>Programación de una web responsive completa.</p>
+          </div>
+          <div>
+            <h2 class="fw-bold">400 €</h2>
+          </div>
+          <div class="form-group form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="ads"
+              (change)="changeStatus()"
+            />
+            <label class="form-check-label">Añadir</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-5">
+      <div class="col mx-auto">
+        <div
+          [ngClass]="{'border border-success': budgetService.services().web}"
+          class="d-flex justify-content-between align-items-center rounded p-5 shadow"
+        >
+          <div>
+            <h3 class="fw-bold">Web</h3>
+            <p>Programación de una web responsive completa.</p>
+          </div>
+          <div>
+            <h2 class="fw-bold">500 €</h2>
+          </div>
+          <div class="form-group form-check d-flex flex-column justify-content-center align-items-center">
+            <div class="d-flex">
               <input
                 class="form-check-input"
                 type="checkbox"
-                name="seobox"
-                formControlName="seobox" (change)="changeStatus(); updateURL()">
-              
-              <label class="form-check-label">Añadir</label>
+                formControlName="web"
+                (change)="changeStatus()"
+              />
+              <label class="form-check-label mb-2">Añadir</label>
             </div>
+            @if (budgetService.services().web) {
+              <app-panel></app-panel>
+            }
           </div>
         </div>
       </div>
-  
-      <div class="row my-5">
-        <div class="col mx-auto">
-          <div
-            [ngClass]="{'border border-success': form.value.adsbox === true}"
-            class="d-flex justify-content-between align-items-center rounded p-5 shadow"
-          >
-            <div>
-              <h3 class="fw-bold">Ads</h3>
-              <p>Programación de una web responsive completa</p>
-            </div>
-            <div>
-              <h2 class="fw-bold">400 €</h2>
-            </div>
-            <div class="form-group form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="adsbox"
-                formControlName="adsbox" (change)="changeStatus(); updateURL()">
-              
-              <label class="form-check-label">Añadir</label>
-            </div>
-          </div>
-        </div>
+    </div>
+
+    <div class="row">
+      <div class="col mx-auto text-end">
+        <h3 class="fw-bold">Total del presupuesto: {{ budgetService.total() }} €</h3>
       </div>
-  
-      <div class="row my-5">
-        <div class="col mx-auto">
-          <div
-            [ngClass]="{'border border-success': form.value.webbox === true}"
-            class="d-flex justify-content-between align-items-center rounded p-5 shadow"
-          >
-            <div>
-              <h3 class="fw-bold">Web</h3>
-              <p>Programación de una web responsive completa</p>
-            </div>
-            <div>
-              <h2 class="fw-bold">500 €</h2>
-            </div>
-            <div class="form-group form-check d-flex flex-column justify-content-center align-items-center">
-              <div class="d-flex">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="webbox"
-                  formControlName="webbox" (change)="changeStatus(); updateURL()">
-               
-                <label class="form-check-label mb-2">Añadir</label>
-              </div>
-              <div *ngIf="form.value.webbox === true">
-                <app-panel></app-panel>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col mx-auto text-end">
-          <h3 class="fw-bold">Total del presupuesto: {{ BudgetService.total }} €</h3>
-        </div>
-      </div>
-  
-    </form>
-  
-   
-    <div *ngIf="BudgetService.total > 0" class="my-5">
-      <form
-        class="border rounded p-3 shadow"
-        (ngSubmit)="addUser()"
-        [formGroup]="formularioUser"
-      >
+    </div>
+  </form>
+
+  @if (budgetService.total() > 0) {
+    <div class="my-5">
+      <form class="border rounded p-3 shadow" (ngSubmit)="addUser()" [formGroup]="formularioUser">
         <div class="row">
           <div class="mb-2 mt-2">
             <h3 class="fw-bold">Solicitar presupuesto</h3>
           </div>
           <div class="col">
-            <input
-              type="text"
-              class="form-control me-2"
-              placeholder="Nombre"
-              formControlName="name"
-            />
-            <div class="text-danger" *ngIf="getErrorMessage('name') as msg">
-              {{ msg }}
-            </div>
+            <input type="text" class="form-control me-2" placeholder="Nombre" formControlName="name" />
+            @if (getErrorMessage('name')) {
+              <div class="text-danger">{{ getErrorMessage('name') }}</div>
+            }
           </div>
           <div class="col">
-            <input
-              type="number"
-              min="0"
-              class="form-control me-2"
-              placeholder="Teléfono"
-              formControlName="telephone"
-            />
-            <div class="text-danger" *ngIf="getErrorMessage('telephone') as msg">
-              {{ msg }}
-            </div>
+            <input type="number" min="0" class="form-control me-2" placeholder="Teléfono" formControlName="phone" />
+            @if (getErrorMessage('phone')) {
+              <div class="text-danger">{{ getErrorMessage('phone') }}</div>
+            }
           </div>
-    
           <div class="col">
-            <input
-              type="email"
-              class="form-control me-2"
-              placeholder="Email"
-              formControlName="email"
-            />
-            <div class="text-danger" *ngIf="getErrorMessage('email') as msg">
-              {{ msg }}
-            </div>
+            <input type="email" class="form-control me-2" placeholder="Email" formControlName="email" />
+            @if (getErrorMessage('email')) {
+              <div class="text-danger">{{ getErrorMessage('email') }}</div>
+            }
           </div>
-    
-         
           <div class="col">
-            <button type="submit" class="btn btn-success" [disabled]="formularioUser.invalid">
-              Solicitar presupuesto
-            </button>
+            <button type="submit" class="btn btn-success" [disabled]="formularioUser.invalid">Solicitar presupuesto</button>
           </div>
         </div>
       </form>
-    
     </div>
-    <div class="m-5">  <app-budgets-list></app-budgets-list></div>
-    
+  }
+
+  <div class="m-5">
+    <app-budgets-list></app-budgets-list>
+  </div>
+</div>
